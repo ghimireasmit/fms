@@ -1,0 +1,21 @@
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from .models import User, PassengerDetails
+
+@login_required
+def user_details(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    user_bookings = PassengerDetails.objects.filter(booked_by=user)
+    total_bookings = user_bookings.count()
+    total_expenditure = sum(booking.flight.ticket_price for booking in user_bookings if booking.flight)
+
+    data = {
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'phone': user.phone,
+        'total_bookings': total_bookings,
+        'total_expenditure': total_expenditure,
+    }
+    return JsonResponse(data)

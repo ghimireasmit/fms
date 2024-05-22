@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <link rel="stylesheet" href="{% static 'css/menubar.css' %}">
+
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+    <title>User Dashboard</title> 
+</head>
+<body>
+    <nav class="sidebar open">
+        <div class="menu-bar">
+            <div class="menu">
+
+                <ul class="menu-links">
+
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class='fas fa-user-circle icon' ></i>
+                            <span class="text nav-text">Profile</span>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class='fas fa-home icon' ></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="{% url 'flightsearch' %}">
+                            <i class='fas fa-plane icon' ></i>
+                            <span class="text nav-text">Flight Bookings</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="{% url 'user_bookings' %}">
+                            <i class='fas fa-hotel icon'></i>
+                            <span class="text nav-text">My Bookings</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class="fas fa-umbrella-beach icon"></i>
+                            <span class="text nav-text">Holiday Bookings</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class='fas fa-bell icon'></i>
+                            <span class="text nav-text">Notification</span>
+                        </a>
+                    </li>
+                    
+
+                    <li class="nav-link">
+                        <a href="{% url 'edituserdetails' user_id %}">
+                            <i class='fa fa-cog icon'></i>
+                            <span class="text nav-text">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+    </nav>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+<script src="{% static 'js/menubar.js' %}"></script>

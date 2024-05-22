@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Airline Signup{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Your Account</title>
+  <link rel="stylesheet" href="{% static 'css/logincss.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,700&display=swap">
+</head>
+<body style="font-family: 'Poppins', sans-serif;">
+  <div class="container">
+    <h1>Create Your Account</h1>
+    <p>Already have an account? <a href="{% url 'airlinelogin' %}" class="signup-button">Log In</a></p>
+    
+    <form id="registrationForm" method="POST" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="text" id="airlineName" name="airlineName" placeholder="Name" required class="full-width form-input">
+      <input type="email" id="airlineEmail" name="airlineEmail" placeholder="Email" required class="full-width form-input">
+      <input type="tel" id="airlinePhone" name="airlinePhone" placeholder="Phone" required class="full-width form-input">
+      <input type="password" id="airlinePassword" name="airlinePassword" placeholder="Password" required class="full-width form-input">
+      <input type="password" id="airlineCpassword" name="airlineCpassword" placeholder="Confirm Password" required class="full-width form-input">
+      <input type="file" id="airlineImage" name="airlineImage" accept="image/*" class="full-width form-input">  <!-- Image field with accept attribute -->
+      {% if form.errors.airlineEmail %}
+        <p class="error-message">{{ form.errors.airlineEmail }}</p>
+      {% endif %}
+      {% if form.errors.airlinePhone %}
+        <p class="error-message">{{ form.errors.airlinePhone }}</p>
+      {% endif %}
+      <button type="submit" class="login-button">Create Account</button>
+    </form>
+  </div>
+</body>
+</html>
+{% endblock %}

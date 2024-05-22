@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Add Route{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Route</title>
+  <link rel="stylesheet" href="{% static 'css/logincss.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,700&display=swap">
+</head>
+<body style="font-family: 'Poppins', sans-serif;">
+    <div class="container">
+        <h1 style="color: #d00000;">Add Route</h1>
+        <form id="routeForm" action="{% url 'addroute' %}" method="post" class="login-form">
+            {% csrf_token %}
+            <label for="start_location">Start Location:</label>
+            <input type="text" id="start_location" name="start_location" required class="full-width form-input">
+            <label for="end_location">End Location:</label>
+            <input type="text" id="end_location" name="end_location" required class="full-width form-input">
+            <button type="submit" class="login-button">Add Route</button>
+        </form>
+            {% if messages %}
+                <div class="error-message">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% include 'adminbase.html' %}
+</body>
+</html>
+{% endblock %}

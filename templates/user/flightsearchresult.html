@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <form method="post" action="{% url 'passenger_details' %}">
+        {% csrf_token %}
+        <input type="hidden" name="total_passengers" value="{{ total_passengers }}">
+
+        {% if trip_type == 'one-way' %}
+        <h3 class="my-3">One-Way Flights</h3>
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Flight Number</th>
+                    <th>Airline Name</th>
+                    <th>Airline Image</th>
+                    <th>Start Location</th>
+                    <th>End Location</th>
+                    <th>Departure Date and Time</th>
+                    <th>Available Seats</th>
+                    <th>Ticket Price</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for flight in flights %}
+                <tr>
+                    <td>{{ flight.flight_number }}</td>
+                    <td>{{ flight.airline_name }}</td>
+                    <td>
+                        {% if flight.airline_image %}
+                            <img src="{{ flight.airline_image.url }}" alt="{{ flight.airline_name }}" class="img-fluid" style="width: 50px; height: auto;">
+                        {% else %}
+                            No Image
+                        {% endif %}
+                    </td>
+                    <td>{{ flight.start_location }}</td>
+                    <td>{{ flight.end_location }}</td>
+                    <td>{{ flight.departure_datetime }}</td>
+                    <td>{{ flight.seats_capacity }}</td>
+                    <td>{{ flight.ticket_price }}</td>
+                    <td><input type="radio" name="selected_flight" value="{{ flight.id }}" required class="custom-radio"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        
+        {% if trip_type == 'roundtrip' %}
+        <h3 class="my-3">Departing Flights</h3>
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Flight Number</th>
+                    <th>Airline Name</th>
+                    <th>Airline Image</th>
+                    <th>Start Location</th>
+                    <th>End Location</th>
+                    <th>Departure Date and Time</th>
+                    <th>Seats Capacity</th>
+                    <th>Ticket Price</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for flight in departing_flights %}
+                <tr>
+                    <td>{{ flight.flight_number }}</td>
+                    <td>{{ flight.airline_name }}</td>
+                    <td>
+                        {% if flight.airline_image %}
+                            <img src="{{ flight.airline_image.url }}" alt="{{ flight.airline_name }}" class="img-fluid" style="width: 50px; height: auto;">
+                        {% else %}
+                            No Image
+                        {% endif %}
+                    </td>
+                    <td>{{ flight.start_location }}</td>
+                    <td>{{ flight.end_location }}</td>
+                    <td>{{ flight.departure_datetime }}</td>
+                    <td>{{ flight.seats_capacity }}</td>
+                    <td>{{ flight.ticket_price }}</td>
+                    <td><input type="radio" name="selected_departing_flight" value="{{ flight.id }}" required class="custom-radio"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3 class="my-3">Returning Flights</h3>
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Flight Number</th>
+                    <th>Airline Name</th>
+                    <th>Airline Image</th>
+                    <th>Start Location</th>
+                    <th>End Location</th>
+                    <th>Departure Date and Time</th>
+                    <th>Seats Capacity</th>
+                    <th>Ticket Price</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for flight in returning_flights %}
+                <tr>
+                    <td>{{ flight.flight_number }}</td>
+                    <td>{{ flight.airline_name }}</td>
+                    <td>
+                        {% if flight.airline_image %}
+                            <img src="{{ flight.airline_image.url }}" alt="{{ flight.airline_name }}" class="img-fluid" style="width: 50px; height: auto;">
+                        {% else %}
+                            No Image
+                        {% endif %}
+                    </td>
+                    <td>{{ flight.start_location }}</td>
+                    <td>{{ flight.end_location }}</td>
+                    <td>{{ flight.departure_datetime }}</td>
+                    <td>{{ flight.seats_capacity }}</td>
+                    <td>{{ flight.ticket_price }}</td>
+                    <td><input type="radio" name="selected_returning_flight" value="{{ flight.id }}" required class="custom-radio"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        <div class="text-center my-4">
+            <div class="button-wrapper">
+                <button type="submit" class="btn proceed-button">Proceed</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+    .container {
+        width: 60%;
+        margin-top: 100px;
+        margin-left: 350px; /* Adjusted to move the container more to the right */
+    }
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 0.5rem;
+        vertical-align: top;
+        border: 1px solid #dee2e6; /* Added border to rows and columns */
+    }
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+    .table tbody + tbody {
+        border-top: 2px solid #dee2e6;
+    }
+    .table .table {
+        background-color: #fff;
+    }
+    .table-hover tbody tr:hover {
+        color: #212529;
+        background-color: rgba(0, 0, 0, 0.075);
+    }
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #dee2e6;
+    }
+    .table-bordered thead th,
+    .table-bordered thead td {
+        border-bottom-width: 2px;
+    }
+    .thead-dark th {
+        color: #fff;
+        background-color: #343a40;
+        border-color: #454d55;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .my-3 {
+        margin-top: 1rem !important;
+        margin-bottom: 1rem !important;
+    }
+    .my-4 {
+        margin-top: 1.5rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+    .btn-success {
+        color: #fff;
+        background-color: #d00000;
+        border-color: #d00000;
+    }
+    .btn-success:hover {
+        color: #d00000;
+        background-color: #fff;
+        border-color: #d00000;
+        cursor: pointer;
+    }
+    .btn-sm {
+        padding: 5px 10px;
+        font-size: 14px;
+    }
+    .rounded-button {
+        border-radius: 20px;
+    }
+    .move-down {
+        margin-top: 70px;
+    }
+    .custom-radio {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background-color: #f8f9fa;
+        border: 2px solid #6c757d;
+        cursor: pointer;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+    .custom-radio:checked {
+        background-color: #d00000;
+        border-color: #d00000;
+    }
+    .custom-radio:hover {
+        background-color: #e2e6ea;
+        border-color: #d00000;
+    }
+
+    .proceed-button {
+        color: #fff;
+        display: block;
+        width: 100px!important;
+        height: 35px;
+        outline: none;
+        font-size: 18px;
+        font-weight: 500;
+        border-radius: 5px;
+        cursor: pointer;
+        flex-wrap: nowrap;
+        background: #d00000;
+        border: 2px solid #d00000;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .proceed-button:hover {
+        color: #d00000;
+        background: none;
+    }
+
+    .button-wrapper {
+        display: flex;
+        justify-content: center; /* Center the button horizontally */
+    }
+</style>
+{% endblock %}

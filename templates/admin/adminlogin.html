@@ -1,0 +1,78 @@
+<div class="container">
+  <h1>Admin Log In</h1>
+  {% if error_message %}
+  <p class="error-message">{{ error_message }}</p>
+  {% endif %}
+  <form id="loginForm" action="{% url 'adminlogin' %}" method="POST" onsubmit="return validateLogin()">
+    {% csrf_token %}
+    <input type="text" id="username" name="username" placeholder="Username" required class="full-width form-input">
+    <input type="password" id="password" name="password" placeholder="Password" required class="full-width form-input">
+    <button type="submit" class="login-button">Admin Log In</button>
+  </form>
+</div>
+
+
+<style>
+  /* Set the size of input fields */
+  .full-width.form-input {
+    width: calc(100% - 20px); /* Adjust width */
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensure padding doesn't affect the width */
+  }
+
+  /* login container */
+  .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .container h1, .container p {
+    text-align: center;
+  }
+  
+  .container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .login-button {
+    width: calc(100% - 20px); /* Adjust width */
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 4px;
+    background-color: #d00000; /* Set button color to red */
+    color: white; /* Set text color to white */
+    transition: background-color 0.3s; /* Add transition effect */
+  }
+  
+  /* Add hover effect for the login button */
+  .login-button:hover {
+    background-color: #611414; /* Darken button color on hover */
+  }
+
+  .error-message {
+    color: red; /* Set error message color to red */
+    margin-top: 5px;
+    margin-bottom: 0;
+    text-align: center;
+  }
+</style>
+
+<script>
+  function validateLogin() {
+    // If all validations pass, allow the form submission
+    return true;
+  }
+  </script>

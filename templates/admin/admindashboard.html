@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Airline Dashboard{% endblock %}
+{% block content %}
+{% include 'adminbase.html' %}
+
+<section class="services" id="admin-services">
+    <div class="max-width">
+        <div class="fixed-container" id="fixed-container">
+            <div class="serv-content">
+                <div class="card users">
+                    <a>
+                        <div class="box">
+                            <i class="fas fa-users"></i>
+                            <div class="text">Users</div>
+                            <div class="number">{{ total_users }}</div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="card airlines">
+                    <a>
+                        <div class="box">
+                            <i class="fas fa-plane"></i>
+                            <div class="text">Airlines</div>
+                            <div class="number">{{ total_airlines }}</div>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="card bookings">
+                    <a>
+                        <div class="box">
+                            <i class="fas fa-book"></i>
+                            <div class="text">Bookings</div>
+                            <div class="number">{{ total_bookings }}</div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="card schedule">
+                    <a>
+                        <div class="box">
+                            <i class="fas fa-calendar-alt"></i>
+                            <div class="text">Upcoming Flights</div>
+                            <div class="number">{{ total_upcoming_flights }}</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    body {
+        background-color: #f5f5f5;
+    }
+
+    .serv-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        justify-items: center;
+    }
+
+    .card {
+        background-color: black;
+        border-radius: 6px;
+        padding: 10px;
+        transition: transform 0.3s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 200px;
+        height: 150px;
+    }
+
+    .card .box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .card .box i {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    .card:hover {
+        transform: scale(1.1);
+    }
+
+    .text {
+        color: white;
+        font-size: 1em;
+        text-align: center;
+    }
+
+    .airlines {
+        margin-right: 20px;
+        margin-top: 50px;
+    }
+
+    .users {
+        margin-left: 250px;
+        margin-top: 50px;
+    }
+
+    .bookings {
+        margin-left: 250px;
+    }
+    
+    .schedule {
+        margin-right: 20px;
+    }
+
+</style>
+
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}  <!-- Load the custom filters -->
+{% block title %}Flight Booking{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flight Booking</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script>
+        function toggleReturnDate() {
+            var returnDateInput = document.getElementById('return_date');
+            var returnLabel = document.getElementById('clickhide');
+            var oneWayRadio = document.getElementById('one-way');
+            if (oneWayRadio.checked) {
+                returnDateInput.style.visibility = 'hidden';
+                returnDateInput.style.display = 'none';
+                returnLabel.style.visibility = 'hidden';
+            } else {
+                returnDateInput.style.visibility = 'visible';
+                returnLabel.style.visibility = 'visible';
+                returnDateInput.style.display = 'block';
+            }
+        }
+
+        // Function to set the minimum date for departure and return date fields to today
+        function setMinimumDate() {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById('departure_date').setAttribute('min', today);
+            document.getElementById('return_date').setAttribute('min', today);
+        }
+        window.onload = setMinimumDate;
+    </script>
+</head>
+<body>
+    <div id="booking" class="section">
+        <div class="section-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7 col-md-offset-1">
+                        <div class="booking-form">
+                            <form method="post" action="{% url 'flightsearch' %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <div class="form-checkbox">
+                                        <label for="roundtrip">
+                                            <input type="radio" id="roundtrip" name="flight_type" value="roundtrip" checked onclick="toggleReturnDate()">
+                                            <span></span>Roundtrip
+                                        </label>
+                                        <label for="one-way">
+                                            <input type="radio" id="one-way" name="flight_type" value="one-way" onclick="toggleReturnDate()">
+                                            <span></span>One way
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <span class="form-label">Flying from</span>
+                                            <select name="flying_from" class="form-control" required>
+                                                {% for route in routes %}
+                                                    <option value="{{ route.start_location }}">{{ route.start_location }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <span class="form-label">Flying to</span>
+                                            <select name="flying_to" class="form-control" required>
+                                                {% for route in routes %}
+                                                    <option value="{{ route.end_location }}">{{ route.end_location }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span class="form-label">Departing</span>
+                                            <input id="departure_date" class="form-control" type="date" name="departure_date" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span class="form-label" id="clickhide">Returning</span>
+                                            <input id="return_date" class="form-control" type="date" name="return_date">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <span class="form-label">Adults (18+)</span>
+                                            <select class="form-control" name="adults">
+                                                {% for i in 1|range_filter:11 %}
+                                                    <option value="{{ i }}">{{ i }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <span class="select-arrow"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <span class="form-label">Children (0-17)</span>
+                                            <select class="form-control" name="children">
+                                                {% for i in 0|range_filter:11 %}
+                                                    <option value="{{ i }}">{{ i }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <span class="select-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-btn">
+                                    <button class="submit-btn">Show flights</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}User List{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <style>
+
+        #addModal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 8%;
+            top: 10%;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        table {
+            width: 75%;
+            position: absolute;
+            top: 25%;
+            left: 22%;
+            border-collapse: collapse;
+        }     
+
+        th, td{
+            padding: 8px;
+            text-align: center; /* Center align content */
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            border: 1.5px solid black;
+            font-size: 12px;
+        }
+
+        th {
+            background-color: #d00000;
+        }
+
+        td {
+            color: black;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #d00000;
+        }
+
+        .btn-edit {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: auto;    /* Center the button */
+            display: block;  /* Make it block-level  */
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 8%;
+            top: 10%;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 20px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+        input:checked + .slider:before {
+            -webkit-transform: translateX(20px);
+            -ms-transform: translateX(20px);
+            transform: translateX(20px);
+        }
+    </style>
+</head>
+<body>
+    <div style="position: absolute; top: 19%; left: 22%; text-align: center; font-family: 'Poppins', sans-serif; font-size: 23px; font-weight: bold;">User List</div>
+<table>
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Number</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><img src="https://via.placeholder.com/50" alt="User Image"></td>
+            <td>John Doe</td>
+            <td>john.doe@example.com</td>
+            <td>123-456-7890</td>
+            <td>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </td>
+            <td><button class="btn-edit">Edit</button></td>
+        </tr>
+
+    </tbody>
+</table>
+
+
+<!-- Modal for editing user details -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Edit User Details</h2>
+        <!-- Add form elements for editing user details -->
+        <form id="editForm">
+            <label for="editName">Name:</label><br>
+            <input type="text" id="editName" name="editName" style="width: 100%;"><br>
+            <label for="editEmail">Email:</label><br>
+            <input type="email" id="editEmail" name="editEmail" style="width: 100%;"><br>
+            <label for="editNumber">Number:</label><br>
+            <input type="text" id="editNumber" name="editNumber" style="width: 100%;"><br>
+            <label for="editImage">Image:</label><br>
+            <input type="file" id="editImage" name="editImage" style="width: 100%;"><br><br>
+            <input type="submit" value="Save" style="background-color: #4CAF50; color: white; border: none; cursor: pointer; padding: 8px 16px; border-radius: 5px;">
+        </form>
+    </div>
+</div>
+
+<script>
+    // Function to toggle user status
+    function toggleStatus(checkbox) {
+        if (checkbox.checked) {
+            checkbox.parentNode.parentNode.cells[4].textContent = 'Active';
+        } else {
+            checkbox.parentNode.parentNode.cells[4].textContent = 'Inactive';
+        }
+    }
+
+    // Add event listener to all edit buttons
+    const editButtons = document.querySelectorAll('.btn-edit');
+    editButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            document.getElementById('editModal').style.display = 'block';
+        });
+    });
+
+    // Close the modal when clicking on the close button
+    document.querySelector('.close').addEventListener('click', () => {
+        document.getElementById('editModal').style.display = 'none';
+    });
+
+    // Close the modal when clicking outside the modal content
+    window.onclick = function(event) {
+        const modal = document.getElementById('editModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+
+    // Prevent default form submission
+    document.getElementById('editForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Add your logic to save the edited user details here
+        // Once saved, close the modal
+        document.getElementById('editModal').style.display = 'none';
+    });
+
+</script>
+
+{% include 'adminbase.html' %}
+</body>
+</html>
+{% endblock %}

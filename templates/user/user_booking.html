@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Bookings{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings</title>
+    <style>
+        table {
+            width: 75%;
+            position: absolute;
+            top: 25%;
+            left: 12%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            border: 1.5px solid black;
+            font-size: 12px;
+        }
+
+        th {
+            background-color: #d00000;
+        }
+
+        td {
+            color: black;
+        }
+
+        tr:nth-child(even) {
+            background-color: #d00000;
+        }
+
+        .pay-button, .download-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            margin-right: 5px;
+        }
+
+        .download-button {
+            background-color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div style="position: absolute; top: 19%; left: 22%; text-align: center; font-family: 'Poppins', sans-serif; font-size: 23px; font-weight: bold;">My Bookings</div>
+    <table>
+        <thead>
+            <tr>
+                <th>PNR</th>
+                <th>Flight Number</th>
+                <th>Airline Name</th>
+                <th>Departure Date</th>
+                <th>Amount</th>
+                <th>Payment Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in user_bookings %}
+            <tr>
+                <td>{{ booking.pnr }}</td>
+                <td>{{ booking.flight_number }}</td>
+                <td>{{ booking.airline_name }}</td>
+                <td>{{ booking.departure_date|date:"Y-m-d H:i" }}</td>
+                <td>{{ booking.amount }}</td>
+                <td>
+                    {% if booking.payment_status %}
+                        Paid
+                    {% else %}
+                        Not Paid
+                    {% endif %}
+                </td>
+                <td>
+                    {% if booking.payment_status %}
+                        <a href="{% url 'download_ticket' booking.pnr %}" class="download-button">Download Ticket</a>
+                    {% else %}
+                        <a href="{% url 'make_payment' booking.pnr %}" class="pay-button">Make Payment</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+{% endblock %}

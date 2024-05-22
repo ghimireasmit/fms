@@ -1,0 +1,133 @@
+.full-width.form-input {
+  width: calc(100% - 20px); /* Adjust width */
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Ensure padding doesn't affect the width */
+  transition: border-color 0.3s; /* Add transition effect */
+}
+
+
+/* login/signup container */
+.container {
+  position: absolute;
+  top: 320px; /* Adjusted value */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 35%;
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 3px solid #d00000; /* Red border */
+}
+
+  
+.container h1, .container p {
+  text-align: center;
+}
+
+.container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signup-button {
+  color: #d00000; /* Set default text color */
+  transition: color 0.3s; /* Add transition effect */
+}
+
+.signup-button:hover {
+  color: blue; /* Change text color to black on hover */
+  text-decoration: none; /* Remove underline on hover */
+}
+
+
+
+.login-button {
+  color: #fff;
+  display: block;
+  width: 160px!important;
+  height: 40px;
+  outline: none;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+  flex-wrap: nowrap;
+  background: #d00000;
+  border: 2px solid #d00000;
+  transition: all 0.3s ease;
+  margin-top: 10px; /* Add margin to move the button down */
+}
+
+/* Add hover effect for the login button */
+.login-button:hover {
+  color: #d00000;
+  background: none;
+}
+
+
+/* Sidebar CSS */
+/* Sidebar */
+#sidebar-wrapper{
+  z-index:1;
+  position: absolute;
+  width:0;
+  height:100%;
+  overflow-y:hidden;
+  background: #5b4282;
+  opacity:0.9;
+	transition:all .5s;
+	display:flex;
+	align-items:center;
+}
+
+/* Main Content */
+#page-content-wrapper{
+  width: 100%;	
+  position: absolute;
+  padding:15px;
+	transition:all .5s;
+}
+
+#menu-toggle{
+	transition:all .3s;
+	font-size:2em;
+}
+/* Change the width of the sidebar to display it*/
+#wrapper.menuDisplayed #sidebar-wrapper{
+  width:250px;
+}
+
+#wrapper.menuDisplayed #page-content-wrapper{
+  padding-left:250px;
+}
+
+/* Sidebar styling */
+.sidebar-nav{
+  padding:0;
+  list-style:none; 
+	transition:all .5s;
+	width:100%;
+	text-align:center;
+}
+
+.sidebar-nav li{
+  line-height:40px;  
+	width:100%;
+	transition:all .3s;
+	padding:10px;
+}
+
+.sidebar-nav li a {
+  display:block;
+  text-decoration:none;
+  color:#ddd;
+}
+
+.sidebar-nav li:hover{
+  background:#846bab;
+}

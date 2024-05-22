@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Add Airline{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/logincss.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,700&display=swap">
+</head>
+<body style="font-family: 'Poppins', sans-serif;">
+    <div class="container">
+        <h2 style="color: #d00000; text-align: center;">Add Airline</h2>
+        <form id="airlineForm" action="{% url 'addflightschedule' %}" method="post" class="login-form">
+            {% csrf_token %}
+            <label for="flight_number">Flight Number:</label>
+            <input type="text" id="flight_number" name="flight_number" required class="full-width form-input">
+            <label for="start_location">Start Location:</label>
+            <select id="start_location" name="start_location" required class="full-width form-input">
+                {% for route in routes %}
+                    <option value="{{ route.start_location }}">{{ route.start_location }}</option>
+                {% endfor %}
+            </select>
+            <label for="end_location">End Location:</label>
+            <select id="end_location" name="end_location" required class="full-width form-input">
+                {% for route in routes %}
+                    <option value="{{ route.end_location }}">{{ route.end_location }}</option>
+                {% endfor %}
+            </select>
+            <label for="seats_capacity">Seats Capacity:</label>
+            <input type="number" id="seats_capacity" name="seats_capacity" required class="full-width form-input">
+            <label for="departure_datetime">Departure Date and Time:</label>
+            <input type="datetime-local" id="departure_datetime" name="departure_datetime" required class="full-width form-input" min="{{ min_date }}">
+            <label for="ticket_price">Ticket Price:</label>
+            <input type="number" id="ticket_price" name="ticket_price" required class="full-width form-input">      
+            <button type="submit" class="login-button">Add Airline</button>
+        </form>
+        {% if messages %}
+            <div class="error-message">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    {% include 'airlinebase.html' %}
+</body>
+</html>
+{% endblock %}
